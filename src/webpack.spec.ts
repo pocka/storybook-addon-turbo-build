@@ -158,11 +158,11 @@ describe("#replaceLoader", () => {
           },
           {
             test: ".html",
-            loaders: ["keep-loader"],
+            loaders: "keep-loader",
           },
           {
             test: ".png",
-            use: [{ loader: "keep-loader", options: {} }],
+            use: { loader: "keep-loader", options: {} },
           },
         ],
       },
