@@ -41,7 +41,9 @@
   },
   "scripts": {
     "build": "tsc --build tsconfig.build.json",
+    "clean": "rm -rf cjs",
     "test": "jest",
-    "lint": "prettier --check src"
+    "lint": "prettier --check src",
+    "prepack": "yarn clean && yarn build"
   }
 }

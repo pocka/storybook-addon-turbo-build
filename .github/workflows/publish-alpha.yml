@@ -1,0 +1,22 @@
+name: Publish alpha package
+
+on:
+  push:
+    tags:
+      - "v*-alpha*"
+
+jobs:
+  publish:
+    name: Publish alpha package
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: yarn install
+      - name: Publish to NPM
+        run: |
+          npm config set //registry.npmjs.org/:_authToken=$NPM_AUTH_TOKEN
+          yarn publish --tag alpha
+        env:
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}

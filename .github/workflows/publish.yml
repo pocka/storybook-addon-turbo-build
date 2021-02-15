@@ -1,0 +1,24 @@
+name: Publish stable package
+
+on:
+  push:
+    tags:
+      - "v*"
+      - "!v*-alpha*"
+      - "!v*-beta*"
+
+jobs:
+  publish:
+    name: Publish stable package
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: yarn install
+      - name: Publish to NPM
+        run: |
+          npm config set //registry.npmjs.org/:_authToken=$NPM_AUTH_TOKEN
+          yarn publish
+        env:
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
