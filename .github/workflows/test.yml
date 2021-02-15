@@ -1,0 +1,17 @@
+name: Test and Lint
+
+on: push
+
+jobs:
+  test-and-lint:
+    name: Perform tests and Lint code base
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        uses: yarn install
+      - name: Lint files
+        run: yarn lint
+      - name: Run unit tests
+        run: yarn test
