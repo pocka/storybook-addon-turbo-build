@@ -1,5 +1,11 @@
 # storybook-addon-turbo-build
 
+[![npm](https://img.shields.io/npm/v/storybook-addon-turbo-build)](https://www.npmjs.com/package/storybook-addon-turbo-build)
+[![npm (alpha)](https://img.shields.io/npm/v/storybook-addon-turbo-build/alpha)](https://www.npmjs.com/package/storybook-addon-turbo-build)
+[![npm (beta)](https://img.shields.io/npm/v/storybook-addon-turbo-build/beta)](https://www.npmjs.com/package/storybook-addon-turbo-build)
+[![license](https://img.shields.io/github/license/pocka/storybook-addon-turbo-build)](https://github.com/pocka/storybook-addon-turbo-build/blob/master/LICENSE)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
+
 This Storybook addon improves your Storybook's build time by tweaking webpack configuration.
 
 Improvements such as replacing Terser with ESBuild or disabling source map generation reduces your build time, so you can save your CI time or operate development cycle more quickly.
