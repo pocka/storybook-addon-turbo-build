@@ -1,0 +1,26 @@
+name: Run benchmark
+
+on:
+  push:
+    branches:
+      - "master"
+    tags-ignore:
+      - "v*"
+
+jobs:
+  benchmark:
+    name: Run benchmark
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: yarn install
+      - name: Build the addon
+        run: yarn build
+      - name: Install example dependencies
+        run: yarn install
+        working-directory: ./examples/basic
+      - name: Run benchmark
+        run: node ./scripts/benchmark.mjs
+        working-directory: ./examples/basic

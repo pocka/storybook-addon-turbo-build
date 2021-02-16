@@ -9,8 +9,14 @@ module.exports = {
     {
       name: "../../../preset.js",
       options: {
-        optimizationLevel: 3,
+        // We uses an environmental variable to switch optimization level for benchmark.
+        // You would probably hard-code the level.
+        optimizationLevel: process.env.OPTIMIZATION_LEVEL
+          ? parseInt(process.env.OPTIMIZATION_LEVEL)
+          : 1,
       },
     },
   ],
 };
+
+console.log(process.env.OPTIMIZATION_LEVEL);
