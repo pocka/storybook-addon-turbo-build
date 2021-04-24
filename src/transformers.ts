@@ -49,7 +49,7 @@ export function replaceBabelLoader(
       }
     },
     (loader, rule) => ({
-      loader: "esbuild-loader",
+      loader: require.resolve("esbuild-loader"),
       options: {
         target: "es2015",
         loader: doesIncludeTs(rule) ? "tsx" : "jsx",
