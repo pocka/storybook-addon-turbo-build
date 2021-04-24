@@ -13,6 +13,17 @@ import {
 const babelLoaderPattern = /babel-loader/;
 
 /**
+ * Will the rule be applied to .ts(x) files?
+ */
+function doesIncludeTs(rule: webpack.RuleSetRule): boolean {
+  return !!(
+    rule.test &&
+    rule.test instanceof RegExp &&
+    rule.test.test("foo.ts")
+  );
+}
+
+/**
  * We can't just remove babel-laoder: since Storybook ships codes with JSX,
  * we need to transpile it in *loader phase* so webpack can handle files correctly.
  */
@@ -29,7 +40,7 @@ export function replaceBabelLoader(
           return !!(
             rule.test &&
             rule.test instanceof RegExp &&
-            rule.test.test("foo.js") &&
+            (rule.test.test("foo.js") || rule.test.test("foo.ts")) &&
             loader.loader &&
             babelLoaderPattern.test(loader.loader)
           );
@@ -37,11 +48,11 @@ export function replaceBabelLoader(
           return false;
       }
     },
-    () => ({
+    (loader, rule) => ({
       loader: "esbuild-loader",
       options: {
         target: "es2015",
-        loader: "jsx",
+        loader: doesIncludeTs(rule) ? "tsx" : "jsx",
       },
     })
   );

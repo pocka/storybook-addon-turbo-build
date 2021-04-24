@@ -83,7 +83,10 @@ export function removePlugin(
 }
 
 type LoaderTester = (loader: RuleSetUseItem, rule: RuleSetRule) => boolean;
-type LoaderReplacer = (loader: RuleSetUseItem) => RuleSetUseItem | null;
+type LoaderReplacer = (
+  loader: RuleSetUseItem,
+  rule: RuleSetRule
+) => RuleSetUseItem | null;
 
 /**
  * Replace or Remove loader matching to `test` with a value returned from `replaceWith`.
@@ -132,7 +135,7 @@ function replaceLoaderInternal(
       const transformed = use
         .map((item) => {
           if (test(item, rule)) {
-            return replaceWith(item);
+            return replaceWith(item, rule);
           }
 
           return item;
@@ -149,7 +152,7 @@ function replaceLoaderInternal(
       }
     }
 
-    return test(use, rule) ? replaceWith(use) ?? undefined : use;
+    return test(use, rule) ? replaceWith(use, rule) ?? undefined : use;
   };
 
   return rules.map((rule) => {
