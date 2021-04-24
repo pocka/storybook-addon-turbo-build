@@ -5,7 +5,6 @@ import {
   replaceBabelLoader,
   removeProgressPlugin,
   useESBuildAsMinifier,
-  appendESBuildPlugin,
 } from "./transformers";
 import type { PresetOptions, Transformer } from "./types";
 
@@ -46,7 +45,6 @@ export default {
     }
 
     const safeTransformers = compose(
-      appendESBuildPlugin,
       useESBuildAsMinifier,
       removeProgressPlugin,
       disableSourceMap
@@ -70,7 +68,6 @@ export default {
     }
 
     const safeTransformers = compose(
-      appendESBuildPlugin,
       useESBuildAsMinifier,
       removeProgressPlugin,
       disableSourceMap

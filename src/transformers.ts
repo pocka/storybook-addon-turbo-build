@@ -1,14 +1,9 @@
-import { ESBuildPlugin, ESBuildMinifyPlugin } from "esbuild-loader";
+import { ESBuildMinifyPlugin } from "esbuild-loader";
 import { ProgressPlugin } from "webpack";
 import type * as webpack from "webpack";
 
 import type { PresetOptions } from "./types";
-import {
-  removePlugin,
-  replaceLoader,
-  replaceMinimizer,
-  safeAppendPlugin,
-} from "./webpack";
+import { removePlugin, replaceLoader, replaceMinimizer } from "./webpack";
 
 const babelLoaderPattern = /babel-loader/;
 
@@ -56,12 +51,6 @@ export function replaceBabelLoader(
       },
     })
   );
-}
-
-export function appendESBuildPlugin(
-  config: webpack.Configuration
-): webpack.Configuration {
-  return safeAppendPlugin(config, ESBuildPlugin, () => new ESBuildPlugin());
 }
 
 export function removeProgressPlugin(

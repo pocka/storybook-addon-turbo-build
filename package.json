@@ -22,7 +22,7 @@
   "main": "preset.js",
   "type": "commonjs",
   "dependencies": {
-    "esbuild-loader": "^2.9.1"
+    "esbuild-loader": "^2.10.0"
   },
   "devDependencies": {
     "@types/webpack": "^4.41.26",

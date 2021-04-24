@@ -1,47 +1,6 @@
 import { Configuration, Plugin, ProgressPlugin, RuleSetUseItem } from "webpack";
 
-import { removePlugin, replaceLoader, safeAppendPlugin } from "./webpack";
-
-describe("#safeAppendPlugin", () => {
-  class TestPlugin implements Plugin {
-    apply() {}
-  }
-
-  it("Should append a plugin at last", () => {
-    const actual = safeAppendPlugin(
-      {
-        plugins: [new ProgressPlugin()],
-      },
-      TestPlugin,
-      () => new TestPlugin()
-    );
-
-    expect(actual.plugins).toHaveLength(2);
-    expect(actual.plugins?.[1]).toBeInstanceOf(TestPlugin);
-  });
-
-  it("Should append a plugin even if `plugins` key does not exist", () => {
-    const actual = safeAppendPlugin({}, TestPlugin, () => new TestPlugin());
-
-    expect(actual.plugins).toBeInstanceOf(Array);
-    expect(actual.plugins).toHaveLength(1);
-    expect(actual.plugins?.[0]).toBeInstanceOf(TestPlugin);
-  });
-
-  it("Should not append if there is already same plugin", () => {
-    const actual = safeAppendPlugin(
-      {
-        plugins: [new TestPlugin(), new ProgressPlugin()],
-      },
-      TestPlugin,
-      () => new TestPlugin()
-    );
-
-    expect(actual.plugins).toHaveLength(2);
-    expect(actual.plugins?.[0]).toBeInstanceOf(TestPlugin);
-    expect(actual.plugins?.[1]).toBeInstanceOf(ProgressPlugin);
-  });
-});
+import { removePlugin, replaceLoader } from "./webpack";
 
 describe("#removePlugin", () => {
   class TestPlugin implements Plugin {

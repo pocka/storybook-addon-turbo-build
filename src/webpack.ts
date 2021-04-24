@@ -37,32 +37,6 @@ export function replaceMinimizer(
 type AnyConstructor = new (...args: any) => any;
 
 /**
- * Append a plugin if not added to the plugins list yet.
- * @param config webpack config
- * @param ctor constructor of the plugin (function plugins are not supported)
- * @param item factory function returns an item to append
- * @returns modified webpack config
- */
-export function safeAppendPlugin(
-  config: Configuration,
-  ctor: AnyConstructor,
-  item: () => Plugin
-): Configuration {
-  // Do not append if there is already the plugin
-  if (
-    config.plugins &&
-    config.plugins.some((plugin) => plugin instanceof ctor)
-  ) {
-    return config;
-  }
-
-  return {
-    ...config,
-    plugins: [...(config.plugins ?? []), item()],
-  };
-}
-
-/**
  * Remove a plugin from a plugin list in a given webpack config.
  * @param config webpack config
  * @param ctor constructor of the plugin to remove
