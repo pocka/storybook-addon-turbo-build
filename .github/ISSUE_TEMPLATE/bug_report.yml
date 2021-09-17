@@ -1,0 +1,70 @@
+# This file is used as a GitHub Issue Form template.
+# https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository#creating-issue-forms
+# https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-githubs-form-schema
+
+name: Bug Report
+
+description: File a bug report.
+
+labels: ["bug"]
+
+body:
+  - type: textarea
+    attributes:
+      label: Description of the bug
+      description: |
+        A clear and concise description of what the bug is.
+        If there is an error message related to the bug, please include the error message.
+      placeholder: The addon does not replace babel-loader with esbuild-loader.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: How to reproduce the bug?
+      description: |
+        Please describe how to reproduce the bug.
+        If you have a reproduction repository or sandbox, a link for them would help solving the bug.
+      placeholder: |
+        1. Install and Configure the addon for Storybook for React
+        2. Run `start-storybook`
+        3. See the error message in terminal
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Expected behaviour
+      description: A clear and concise description of what you expected to happen.
+      placeholder: Storybook starts without any errors.
+    validations:
+      required: true
+  - type: dropdown
+    attributes:
+      label: Optimization level
+      description: |
+        Which `optimizationLevel` are you using?
+        If the bug occurs at multiple levels, please specify the lowest one.
+      options:
+        - "0"
+        - "1"
+        - "2"
+        - "3"
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Addon version
+      description: Which exact version of `storybook-addon-turbo-build` are you using?
+      placeholder: "1.0.0"
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Storybook version
+      description: Which exact version and variants of Storybook are you using?
+      placeholder: "@storybook/react@6.3.0"
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Additional contexts
+      description: Things that may related to the bug you aren't sure or anything else.

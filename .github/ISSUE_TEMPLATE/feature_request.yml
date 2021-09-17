@@ -1,0 +1,43 @@
+# This file is used as a GitHub Issue Form template.
+# https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository#creating-issue-forms
+# https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-githubs-form-schema
+
+name: Feature request
+
+description: Suggest an idea for the project
+
+labels: ["enhancement"]
+
+body:
+  - type: textarea
+    attributes:
+      label: Description of the feature
+      description: |
+        A brief description of the requested feature or idea.
+      placeholder: |
+        Replace some-slow-loader with some-fast-loader.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Possible improvements
+      description: |
+        Would you describe how much time does the feature saves or what benefits does it brings to users?
+        Links and demos are very helpful, not required though.
+      placeholder: |
+        That configuration reduces the project's build time by 1min to 30s.
+  - type: textarea
+    attributes:
+      label: Considerations
+      description: |
+        If you have any considerations on the feature, even in an edge-cases, please describe it here.
+      placeholder: |
+        I'm not sure if that works with vue-loader.
+  - type: dropdown
+    attributes:
+      label: Optimization level
+      description: Which `optimizationLevel` the feature is suitable for?
+      options:
+        - "1"
+        - "2"
+        - "3"
