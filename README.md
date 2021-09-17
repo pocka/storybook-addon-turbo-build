@@ -13,7 +13,7 @@ Improvements such as replacing Terser with ESBuild or disabling source map gener
 **Important**
 
 Storybook already does various build performance improvements. This addon mainly improves cold build (building Storybook without cache under `node_modules/.cache`), you probably won't see noticable differences in cache enabled build.
-You should evaluate the build time before addin this addon into your workflow.
+You should evaluate the build time before adding this addon into your workflow.
 
 ## Installation
 
