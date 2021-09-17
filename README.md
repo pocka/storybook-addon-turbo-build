@@ -1,32 +1,31 @@
 # storybook-addon-turbo-build
 
 [![npm](https://img.shields.io/npm/v/storybook-addon-turbo-build)](https://www.npmjs.com/package/storybook-addon-turbo-build)
-[![npm (alpha)](https://img.shields.io/npm/v/storybook-addon-turbo-build/alpha)](https://www.npmjs.com/package/storybook-addon-turbo-build)
-[![npm (beta)](https://img.shields.io/npm/v/storybook-addon-turbo-build/beta)](https://www.npmjs.com/package/storybook-addon-turbo-build)
 [![license](https://img.shields.io/github/license/pocka/storybook-addon-turbo-build)](https://github.com/pocka/storybook-addon-turbo-build/blob/master/LICENSE)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
-This Storybook addon improves your Storybook's build time by tweaking webpack configuration.
+A Storybook addon that improves your Storybook build time by tweaking webpack configuration.
 
 Improvements such as replacing Terser with ESBuild or disabling source map generation reduces your build time, so you can save your CI time or operate development cycle more quickly.
 
 **Important**
 
-Storybook already does various build performance improvements. This addon mainly improves cold build (building Storybook without cache under `node_modules/.cache`), you probably won't see noticable differences in cache enabled build.
-You should evaluate the build time before adding this addon into your workflow.
+Storybook already does various build performance improvements. This addon mainly improves cold build, which is when you build Storybook without caches under your `node_modules/.cache`.
+There could be barely noticable differences in cache enabled builds. You should evaluate the build time before adding this addon into your workflow.
 
 ## Installation
 
 ```sh
 $ npm i -D storybook-addon-turbo-build
 
-# or
+# in other package managers
 $ yarn add -D storybook-addon-turbo-build
+$ pnpm i -D storybook-addon-turbo-build
 ```
 
 ## Getting Started
 
-Add this line to your `.storybook/main.js`.
+Add this line in your `.storybook/main.js`.
 
 ```diff
  module.exports = {
@@ -88,13 +87,13 @@ Safe optimizations. You'll get enough build performance boost with this level.
 
 #### `2`
 
-Aggressive optimizations. This would improve build speed slightly (probably about 1s, depends on machine) but might bring errors if you're using community addons.
+Aggressive optimizations. This would improve build speed slightly (probably about 1s, depends on machine) and may causes an error if you're using community addons.
 
 - Replace `babel-loader` with ESBuild in Manager (Storybook UI, Addons)
 
 #### `3`
 
-Dangerous optimizations. If your project is relying on Babel, this probably will break the build. But will dramatically increases build performance especially when the project has a lot of files (stories).
+Dangerous optimizations. If your project is relying on Babel, this probably will break the build. But will dramatically increases build performance especially when your project has a lot of files (stories).
 
 - Replace `babel-loader` with ESBuild in Preview (Canvas, Docs Addon)
 
