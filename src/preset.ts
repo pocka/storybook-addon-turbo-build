@@ -28,7 +28,7 @@ function normalizeOptions(options: Partial<PresetOptions> = {}): PresetOptions {
     ),
     removeProgressPlugin: options.removeProgressPlugin ?? isProd,
     disableSourceMap: options.disableSourceMap ?? isProd,
-    esbuildMinifyOptions: {},
+    esbuildMinifyOptions: options.esbuildMinifyOptions ?? {},
   };
 }
 
