@@ -9,10 +9,10 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
-    "@storybook/addon-actions": "^6.1.18",
-    "@storybook/addon-essentials": "^6.1.18",
-    "@storybook/addon-links": "^6.1.18",
-    "@storybook/react": "^6.1.18",
+    "@storybook/addon-actions": "^6.4.9",
+    "@storybook/addon-essentials": "^6.4.9",
+    "@storybook/addon-links": "^6.4.9",
+    "@storybook/react": "^6.4.9",
     "babel-loader": "^8.2.2",
     "esbuild-loader": "^2.9.1"
   },
