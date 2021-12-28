@@ -8,6 +8,7 @@ import {
   removePlugin,
   replaceLoader,
   replaceMinimizer,
+  LoaderReplacer,
 } from "./webpack";
 
 const babelLoaderPattern = /babel-loader/;
@@ -16,9 +17,21 @@ const babelLoaderPattern = /babel-loader/;
  * We can't just remove babel-laoder: since Storybook ships codes with JSX,
  * we need to transpile it in *loader phase* so webpack can handle files correctly.
  */
-export function replaceBabelLoader(
+export const esbuildLoaderReplacer: LoaderReplacer = (loader, rule) => ({
+  loader: require.resolve("esbuild-loader"),
+  options: {
+    target: "es2015",
+    loader: isRuleAppliedTo(rule, "foo.ts") ? "tsx" : "jsx",
+  },
+});
+
+/**
+ * Replace babel-loader with specified loader.
+ * @param replacer Function that takes loader object (`RuleSetUseItem`) and rule (`RuleSetRule`) then returns a new loader object.
+ */
+export const replaceBabelLoader = (replacer: LoaderReplacer) => (
   config: webpack.Configuration
-): webpack.Configuration {
+): webpack.Configuration => {
   return replaceLoader(
     config,
     (loader, rule) => {
@@ -36,15 +49,9 @@ export function replaceBabelLoader(
           return false;
       }
     },
-    (loader, rule) => ({
-      loader: require.resolve("esbuild-loader"),
-      options: {
-        target: "es2015",
-        loader: isRuleAppliedTo(rule, "foo.ts") ? "tsx" : "jsx",
-      },
-    })
+    replacer
   );
-}
+};
 
 export function removeProgressPlugin(
   config: webpack.Configuration,

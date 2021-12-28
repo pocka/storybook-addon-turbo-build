@@ -64,12 +64,46 @@ module.exports = {
 
 ### Available Options
 
-| Option Name            | Description                                                                         | Available Values                                                              | Default Value                           |
-| ---------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | --------------------------------------- |
-| `optimizationLevel`    | Level of build speed optimization (See [Optimization Levels](#optimization-levels)) | `0` ~ `3`                                                                     | `1`                                     |
-| `esbuildMinifyOptions` | Options for esbuild via `ESBuildMinifyPlugin`                                       | object ([Docs](https://github.com/privatenumber/esbuild-loader#minifyplugin)) | `{ target: "es2015" }`                  |
-| `removeProgressPlugin` | Whether to remove `ProgressPlugin`                                                  | boolean                                                                       | `process.env.NODE_ENV === "production"` |
-| `disableSourceMap`     | Whether to disable source map generation                                            | boolean                                                                       | `process.env.NODE_ENV === "production"` |
+| Option Name            | Description                                                                         | Available Values                                                              | Default Value                                                                                                    |
+| ---------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `optimizationLevel`    | Level of build speed optimization (See [Optimization Levels](#optimization-levels)) | `0` ~ `3`                                                                     | `1`                                                                                                              |
+| `esbuildMinifyOptions` | Options for esbuild via `ESBuildMinifyPlugin`                                       | object ([Docs](https://github.com/privatenumber/esbuild-loader#minifyplugin)) | `{ target: "es2015" }`                                                                                           |
+| `removeProgressPlugin` | Whether to remove `ProgressPlugin`                                                  | boolean                                                                       | `process.env.NODE_ENV === "production"`                                                                          |
+| `disableSourceMap`     | Whether to disable source map generation                                            | boolean                                                                       | `process.env.NODE_ENV === "production"`                                                                          |
+| `managerTranspiler`    | Manager Webpack loader configuration that will replace `babel-loader` with          | Object (loader config) or Function ([`LoaderReplacer`](#loader-replacer))     | Function returns a loader config object for `esbuild-loader` when Optimization Level >= 2, `undefined` otherwise |
+| `previewTranspiler`    | Preview Webpack loader configuration that will replace `babel-loader` with          | Object (loader config) or Function ([`LoaderReplacer`](#loader-replacer))     | Function returns a loader config object for `esbuild-loader` when Optimization Level >= 3, `undefined` otherwise |
+
+#### `LoaderReplacer`
+
+[`LoaderReplacer`](./src/webpack.ts) is a function that takes loader config object and rule then returns a new loader config object.
+Return `null` to remove the matching loader instead of to replace.
+
+```ts
+// Type Definition
+type LoaderReplacer = (
+  loader: webpack.RuleSetUseItem,
+  rule: webpack.RuleSetRule
+) => webpack.RuleSetUseItem | null;
+```
+
+```ts
+// Replace babel-loader with swc-loader in Preview Webpack
+{
+  previewTranspiler(loader, rule) {
+    return {
+      loader: "swc-loader",
+      options: {/* ... */}
+    }
+  }
+}
+
+// Simply remove babel-loader from Manager Webpack
+{
+  managerTranspiler() {
+    return null
+  }
+}
+```
 
 ### Optimization Levels
 

@@ -97,7 +97,7 @@ export function removePlugin(
 }
 
 type LoaderTester = (loader: RuleSetUseItem, rule: RuleSetRule) => boolean;
-type LoaderReplacer = (
+export type LoaderReplacer = (
   loader: RuleSetUseItem,
   rule: RuleSetRule
 ) => RuleSetUseItem | null;

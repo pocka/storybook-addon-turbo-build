@@ -2,11 +2,13 @@ import type * as webpack from "webpack";
 
 import {
   disableSourceMap,
+  esbuildLoaderReplacer,
   replaceBabelLoader,
   removeProgressPlugin,
   useESBuildAsMinifier,
 } from "./transformers";
 import type { PresetOptions, Transformer } from "./types";
+import type { LoaderReplacer } from "./webpack";
 
 function compose(...fns: Transformer[]): Transformer {
   return function (config, options) {
@@ -29,7 +31,19 @@ function normalizeOptions(options: Partial<PresetOptions> = {}): PresetOptions {
     removeProgressPlugin: options.removeProgressPlugin ?? isProd,
     disableSourceMap: options.disableSourceMap ?? isProd,
     esbuildMinifyOptions: options.esbuildMinifyOptions ?? {},
+    managerTranspiler: options.managerTranspiler,
+    previewTranspiler: options.previewTranspiler,
   };
+}
+
+function normalizeReplacer(
+  replacer: LoaderReplacer | webpack.RuleSetUseItem
+): LoaderReplacer {
+  if (typeof replacer === "function") {
+    return replacer;
+  }
+
+  return () => replacer;
 }
 
 export default {
@@ -44,16 +58,19 @@ export default {
       return config;
     }
 
-    const safeTransformers = compose(
+    const transpiler =
+      typeof finalOptions.managerTranspiler !== "undefined"
+        ? replaceBabelLoader(normalizeReplacer(finalOptions.managerTranspiler))
+        : finalOptions.optimizationLevel >= 2
+        ? replaceBabelLoader(esbuildLoaderReplacer)
+        : id;
+
+    const transformers = compose(
       useESBuildAsMinifier,
       removeProgressPlugin,
-      disableSourceMap
+      disableSourceMap,
+      transpiler
     );
-
-    const aggressiveTransformers =
-      finalOptions.optimizationLevel >= 2 ? compose(replaceBabelLoader) : id;
-
-    const transformers = compose(safeTransformers, aggressiveTransformers);
 
     return transformers(config, finalOptions);
   },
@@ -67,18 +84,19 @@ export default {
       return config;
     }
 
-    const safeTransformers = compose(
+    const transpiler =
+      typeof finalOptions.previewTranspiler !== "undefined"
+        ? replaceBabelLoader(normalizeReplacer(finalOptions.previewTranspiler))
+        : finalOptions.optimizationLevel >= 3
+        ? replaceBabelLoader(esbuildLoaderReplacer)
+        : id;
+
+    const transformers = compose(
       useESBuildAsMinifier,
       removeProgressPlugin,
-      disableSourceMap
+      disableSourceMap,
+      transpiler
     );
-
-    // Preview webpack config compiles users' codes. We can't make sure it
-    // works with ESBuild loader, it's dangerous.
-    const dangerousTransformers =
-      finalOptions.optimizationLevel >= 3 ? compose(replaceBabelLoader) : id;
-
-    const transformers = compose(safeTransformers, dangerousTransformers);
 
     return transformers(config, finalOptions);
   },
