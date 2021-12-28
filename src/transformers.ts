@@ -29,29 +29,29 @@ export const esbuildLoaderReplacer: LoaderReplacer = (loader, rule) => ({
  * Replace babel-loader with specified loader.
  * @param replacer Function that takes loader object (`RuleSetUseItem`) and rule (`RuleSetRule`) then returns a new loader object.
  */
-export const replaceBabelLoader = (replacer: LoaderReplacer) => (
-  config: webpack.Configuration
-): webpack.Configuration => {
-  return replaceLoader(
-    config,
-    (loader, rule) => {
-      switch (typeof loader) {
-        case "string":
-          return babelLoaderPattern.test(loader);
-        case "object":
-          return !!(
-            (isRuleAppliedTo(rule, "foo.js") ||
-              isRuleAppliedTo(rule, "foo.ts")) &&
-            loader.loader &&
-            babelLoaderPattern.test(loader.loader)
-          );
-        default:
-          return false;
-      }
-    },
-    replacer
-  );
-};
+export const replaceBabelLoader =
+  (replacer: LoaderReplacer) =>
+  (config: webpack.Configuration): webpack.Configuration => {
+    return replaceLoader(
+      config,
+      (loader, rule) => {
+        switch (typeof loader) {
+          case "string":
+            return babelLoaderPattern.test(loader);
+          case "object":
+            return !!(
+              (isRuleAppliedTo(rule, "foo.js") ||
+                isRuleAppliedTo(rule, "foo.ts")) &&
+              loader.loader &&
+              babelLoaderPattern.test(loader.loader)
+            );
+          default:
+            return false;
+        }
+      },
+      replacer
+    );
+  };
 
 export function removeProgressPlugin(
   config: webpack.Configuration,
