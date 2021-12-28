@@ -3,20 +3,14 @@ import { ProgressPlugin } from "webpack";
 import type * as webpack from "webpack";
 
 import type { PresetOptions } from "./types";
-import { removePlugin, replaceLoader, replaceMinimizer } from "./webpack";
+import {
+  isRuleAppliedTo,
+  removePlugin,
+  replaceLoader,
+  replaceMinimizer,
+} from "./webpack";
 
 const babelLoaderPattern = /babel-loader/;
-
-/**
- * Will the rule be applied to .ts(x) files?
- */
-function doesIncludeTs(rule: webpack.RuleSetRule): boolean {
-  return !!(
-    rule.test &&
-    rule.test instanceof RegExp &&
-    rule.test.test("foo.ts")
-  );
-}
 
 /**
  * We can't just remove babel-laoder: since Storybook ships codes with JSX,
@@ -33,9 +27,8 @@ export function replaceBabelLoader(
           return babelLoaderPattern.test(loader);
         case "object":
           return !!(
-            rule.test &&
-            rule.test instanceof RegExp &&
-            (rule.test.test("foo.js") || rule.test.test("foo.ts")) &&
+            (isRuleAppliedTo(rule, "foo.js") ||
+              isRuleAppliedTo(rule, "foo.ts")) &&
             loader.loader &&
             babelLoaderPattern.test(loader.loader)
           );
@@ -47,7 +40,7 @@ export function replaceBabelLoader(
       loader: require.resolve("esbuild-loader"),
       options: {
         target: "es2015",
-        loader: doesIncludeTs(rule) ? "tsx" : "jsx",
+        loader: isRuleAppliedTo(rule, "foo.ts") ? "tsx" : "jsx",
       },
     })
   );
