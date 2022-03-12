@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] - 2022-03-13
+
+### Added
+
+- `managerTranspiler` and `previewTranspiler` option ([#20](https://github.com/pocka/storybook-addon-turbo-build/pull/20)).
+
 ## [1.0.1] - 2021-10-01
 
 ### Fixed
