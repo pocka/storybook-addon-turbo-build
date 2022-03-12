@@ -3,55 +3,55 @@ import { ProgressPlugin } from "webpack";
 import type * as webpack from "webpack";
 
 import type { PresetOptions } from "./types";
-import { removePlugin, replaceLoader, replaceMinimizer } from "./webpack";
+import {
+  isRuleAppliedTo,
+  removePlugin,
+  replaceLoader,
+  replaceMinimizer,
+  LoaderReplacer,
+} from "./webpack";
 
 const babelLoaderPattern = /babel-loader/;
-
-/**
- * Will the rule be applied to .ts(x) files?
- */
-function doesIncludeTs(rule: webpack.RuleSetRule): boolean {
-  return !!(
-    rule.test &&
-    rule.test instanceof RegExp &&
-    rule.test.test("foo.ts")
-  );
-}
 
 /**
  * We can't just remove babel-laoder: since Storybook ships codes with JSX,
  * we need to transpile it in *loader phase* so webpack can handle files correctly.
  */
-export function replaceBabelLoader(
-  config: webpack.Configuration
-): webpack.Configuration {
-  return replaceLoader(
-    config,
-    (loader, rule) => {
-      switch (typeof loader) {
-        case "string":
-          return babelLoaderPattern.test(loader);
-        case "object":
-          return !!(
-            rule.test &&
-            rule.test instanceof RegExp &&
-            (rule.test.test("foo.js") || rule.test.test("foo.ts")) &&
-            loader.loader &&
-            babelLoaderPattern.test(loader.loader)
-          );
-        default:
-          return false;
-      }
-    },
-    (loader, rule) => ({
-      loader: require.resolve("esbuild-loader"),
-      options: {
-        target: "es2015",
-        loader: doesIncludeTs(rule) ? "tsx" : "jsx",
+export const esbuildLoaderReplacer: LoaderReplacer = (loader, rule) => ({
+  loader: require.resolve("esbuild-loader"),
+  options: {
+    target: "es2015",
+    loader: isRuleAppliedTo(rule, "foo.ts") ? "tsx" : "jsx",
+  },
+});
+
+/**
+ * Replace babel-loader with specified loader.
+ * @param replacer Function that takes loader object (`RuleSetUseItem`) and rule (`RuleSetRule`) then returns a new loader object.
+ */
+export const replaceBabelLoader =
+  (replacer: LoaderReplacer) =>
+  (config: webpack.Configuration): webpack.Configuration => {
+    return replaceLoader(
+      config,
+      (loader, rule) => {
+        switch (typeof loader) {
+          case "string":
+            return babelLoaderPattern.test(loader);
+          case "object":
+            return !!(
+              (isRuleAppliedTo(rule, "foo.js") ||
+                isRuleAppliedTo(rule, "foo.ts")) &&
+              loader.loader &&
+              babelLoaderPattern.test(loader.loader)
+            );
+          default:
+            return false;
+        }
       },
-    })
-  );
-}
+      replacer
+    );
+  };
 
 export function removeProgressPlugin(
   config: webpack.Configuration,

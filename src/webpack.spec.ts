@@ -1,6 +1,45 @@
-import { Configuration, Plugin, ProgressPlugin, RuleSetUseItem } from "webpack";
+import {
+  Configuration,
+  Plugin,
+  ProgressPlugin,
+  RuleSetRule,
+  RuleSetUseItem,
+} from "webpack";
 
-import { removePlugin, replaceLoader } from "./webpack";
+import { isRuleAppliedTo, removePlugin, replaceLoader } from "./webpack";
+
+describe("#isRuleAppliedTo", () => {
+  it("Should work with string rule", () => {
+    expect(isRuleAppliedTo({ test: "foo.ts" }, "foo.ts")).toEqual(true);
+  });
+
+  it("Should return false when the input string not started with the given string", () => {
+    expect(isRuleAppliedTo({ test: "/dir/foo.ts" }, "foo.ts")).toEqual(false);
+  });
+
+  it("Should work with RegExp rule", () => {
+    expect(isRuleAppliedTo({ test: /\.ts$/ }, "foo.ts")).toEqual(true);
+  });
+
+  it("Should work with function rule", () => {
+    expect(
+      isRuleAppliedTo({ test: (name) => name === "foo.ts" }, "foo.ts")
+    ).toEqual(true);
+    expect(
+      isRuleAppliedTo({ test: (name) => name === "bar.ts" }, "foo.ts")
+    ).toEqual(false);
+  });
+
+  it("Should work with multiple rules", () => {
+    const testRule: RuleSetRule = {
+      test: [/\.ts$/, (path) => path.includes("foo")],
+    };
+
+    expect(isRuleAppliedTo(testRule, "bar.ts")).toEqual(true);
+    expect(isRuleAppliedTo(testRule, "foo.js")).toEqual(true);
+    expect(isRuleAppliedTo(testRule, "baz.rs")).toEqual(false);
+  });
+});
 
 describe("#removePlugin", () => {
   class TestPlugin implements Plugin {

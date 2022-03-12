@@ -1,6 +1,8 @@
 import { ESBuildMinifyPlugin } from "esbuild-loader";
 import type * as webpack from "webpack";
 
+import type { LoaderReplacer } from "./webpack";
+
 type MinifyOptions = NonNullable<
   ConstructorParameters<typeof ESBuildMinifyPlugin>[0]
 >;
@@ -28,6 +30,20 @@ export interface PresetOptions {
    * Defaults to `true` when `NODE_ENV=production` otherwise `false`.
    */
   disableSourceMap: boolean;
+
+  /**
+   * A function to replace `babel-loader` with custom webpack loader for Manager (Storybook UI, addons).
+   * Return `null` to remove `babel-loader` without replacement.
+   * Defaults to a function that replace with `esbuild-loader` when `optimizationLevel` >= 2, `undefined` otherwise.
+   */
+  managerTranspiler?: LoaderReplacer | webpack.RuleSetUseItem;
+
+  /**
+   * A function to replace babel-loader with custom webpack loader for Preview (iframe, your code)
+   * Return `null` to remove `babel-loader` without replacement.
+   * Defaults to a function that replace with `esbuild-loader` when `optimizationLevel` >= 3, `undefined` otherwise.
+   */
+  previewTranspiler?: LoaderReplacer | webpack.RuleSetUseItem;
 }
 
 export type Transformer = (

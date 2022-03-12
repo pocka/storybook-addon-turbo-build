@@ -6,10 +6,50 @@
 import {
   Configuration,
   Plugin,
+  RuleSetCondition,
   RuleSetRule,
   RuleSetUse,
   RuleSetUseItem,
 } from "webpack";
+
+// https://webpack.js.org/configuration/module/#condition
+function testRuleCondition(
+  condition: RuleSetCondition,
+  filename: string
+): boolean {
+  if (typeof condition === "function") {
+    return condition(filename);
+  }
+
+  if (typeof condition === "string") {
+    return condition.indexOf(filename) === 0;
+  }
+
+  if (condition instanceof RegExp) {
+    return condition.test(filename);
+  }
+
+  if (condition instanceof Array) {
+    return condition.some((child) => testRuleCondition(child, filename));
+  }
+
+  // Object-style condition is not supported.
+  return false;
+}
+
+/**
+ * Returns whether the rule will be applied to a file with given filename.
+ * @param rule rule to test
+ * @param filename filename or filepath to test with
+ * @returns whether the rule is active for the file
+ */
+export function isRuleAppliedTo(rule: RuleSetRule, filename: string): boolean {
+  if (!rule.test) {
+    return false;
+  }
+
+  return testRuleCondition(rule.test, filename);
+}
 
 /**
  * Replace minimizer library.
@@ -57,7 +97,7 @@ export function removePlugin(
 }
 
 type LoaderTester = (loader: RuleSetUseItem, rule: RuleSetRule) => boolean;
-type LoaderReplacer = (
+export type LoaderReplacer = (
   loader: RuleSetUseItem,
   rule: RuleSetRule
 ) => RuleSetUseItem | null;
