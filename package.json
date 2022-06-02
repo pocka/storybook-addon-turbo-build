@@ -25,7 +25,7 @@
     "esbuild-loader": "^2.10.0"
   },
   "devDependencies": {
-    "@types/jest": "^27.0.1",
+    "@types/jest": "^28.1.0",
     "@types/webpack": "^4.41.26",
     "jest": "^27.2.0",
     "prettier": "^2.2.1",
