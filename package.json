@@ -22,7 +22,7 @@
   "main": "preset.js",
   "type": "commonjs",
   "dependencies": {
-    "esbuild-loader": "^2.10.0"
+    "esbuild-loader": "^3.0.1"
   },
   "devDependencies": {
     "@types/jest": "^28.1.4",
