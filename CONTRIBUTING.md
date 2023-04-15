@@ -57,16 +57,16 @@ $ yarn prettier --write src
 
 ### Run unit tests
 
-We use Jest for unit testing.
+We use Vitest for unit testing.
 
 ```sh
 $ yarn test
 ```
 
-You can also run Jest with watch mode with `--watch` flag.
+You can turn off watch mode with `run` command.
 
 ```sh
-$ yarn test --watch
+$ yarn test run
 ```
 
 ## Open a Pull Request
