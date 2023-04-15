@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.0] - 2023-04-15
+
+### Changed
+
+- Upgrade `esbuild-loader` to v3.
+
+### Removed
+
+- `esbuildMinifyOptions.sourcemap` option (Removed from `esbuild-loader`).
+
 ## [1.1.0] - 2022-03-13
 
 ### Added
