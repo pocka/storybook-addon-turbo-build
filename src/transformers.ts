@@ -1,4 +1,4 @@
-import { ESBuildMinifyPlugin } from "esbuild-loader";
+import { EsbuildPlugin } from "esbuild-loader";
 import { ProgressPlugin } from "webpack";
 import type * as webpack from "webpack";
 
@@ -74,7 +74,7 @@ export function useESBuildAsMinifier(
 ): webpack.Configuration {
   return replaceMinimizer(
     config,
-    new ESBuildMinifyPlugin({
+    new EsbuildPlugin({
       target: "es2015",
       ...(options.esbuildMinifyOptions ?? {}),
     })

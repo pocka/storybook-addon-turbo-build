@@ -1,10 +1,10 @@
-import { ESBuildMinifyPlugin } from "esbuild-loader";
+import { EsbuildPlugin } from "esbuild-loader";
 import type * as webpack from "webpack";
 
 import type { LoaderReplacer } from "./webpack";
 
 type MinifyOptions = NonNullable<
-  ConstructorParameters<typeof ESBuildMinifyPlugin>[0]
+  ConstructorParameters<typeof EsbuildPlugin>[0]
 >;
 
 /**
