@@ -14,6 +14,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          # Cannot use >=v17 due to webpack4 crashes on it (OpenSSL related bug)
+          node-version: 16
       - name: Install dependencies
         run: yarn install
       - name: Build the addon
