@@ -5,10 +5,19 @@
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
 A Storybook addon that improves your Storybook build time by tweaking webpack configuration.
+Compatible with Storybook v6.
 
 Improvements such as replacing Terser with ESBuild or disabling source map generation reduces your build time, so you can save your CI time or operate development cycle more quickly.
 
-**Important**
+## Important note
+
+### For Storybook v7 (and later versions) users
+
+This addon does not work with Storybook v7 and later versions.
+Those newer Storybook versions vastly improved build-time performance by adopting more efficient tools such as Vite or webpack 5.
+If you want to optimise your build performance further more, please tweak your configuration manually.
+
+### For Storybook v6 users
 
 Storybook already does various build performance improvements. This addon mainly improves cold build, which is when you build Storybook without caches under your `node_modules/.cache`.
 There could be barely noticable differences in cache enabled builds. You should evaluate the build time before integrating this addon into your workflow.
