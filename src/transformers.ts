@@ -21,7 +21,6 @@ export const esbuildLoaderReplacer: LoaderReplacer = (loader, rule) => ({
   loader: require.resolve("esbuild-loader"),
   options: {
     target: "es2015",
-    loader: isRuleAppliedTo(rule, "foo.ts") ? "tsx" : "jsx",
   },
 });
 
