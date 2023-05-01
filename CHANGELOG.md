@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.1] - 2023-05-01
+
+### Fixed
+
+- Fix `esbuild-loader` incorrectly determines file type ([#52](https://github.com/pocka/storybook-addon-turbo-build/pull/52)).
+
 ## [2.0.0] - 2023-04-15
 
 ### Changed
@@ -29,7 +35,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Fix `esbuildMinifyOptions` being ignored ([#17](https://github.com/pocka/storybook-addon-turbo-build/pull/17)).
 
-[Unreleased]: https://github.com/pocka/storybook-addon-turbo-build/compare/v2.0.0...HEAD
+[Unreleased]: https://github.com/pocka/storybook-addon-turbo-build/compare/v2.0.1...HEAD
+[2.0.1]: https://github.com/pocka/storybook-addon-turbo-build/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/pocka/storybook-addon-turbo-build/compare/v1.1.0...v2.0.0
 [1.1.0]: https://github.com/pocka/storybook-addon-turbo-build/compare/v1.0.1...v1.1.0
 [1.0.1]: https://github.com/pocka/storybook-addon-turbo-build/compare/v1.0.0...v1.0.1
