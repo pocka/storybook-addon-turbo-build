@@ -1,4 +1,0 @@
-[build]
-  command = "yarn build && cd examples/basic && yarn build-storybook"
-
-  publish = "examples/basic/storybook-static"
